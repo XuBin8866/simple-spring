@@ -27,4 +27,8 @@ public class TestMain {
         AnnotationService annotationService=new AnnotationService();
         annotationService.annotationTest();
     }
+    @Test
+    public void frameworkTest(){
+
+    }
 }
