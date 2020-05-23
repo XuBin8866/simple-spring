@@ -1,8 +1,11 @@
 package com.xxbb.client.entity.dto;
 
+import com.xxbb.simpleframework.core.annotation.Repository;
+
 /**
  * @author xxbb
  */
+@Repository
 public class Result<T> {
     /**
      * 状态码，200表示成功

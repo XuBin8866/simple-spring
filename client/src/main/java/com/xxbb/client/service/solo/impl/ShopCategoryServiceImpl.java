@@ -3,12 +3,14 @@ package com.xxbb.client.service.solo.impl;
 import com.xxbb.client.entity.dto.Result;
 import com.xxbb.client.entity.po.ShopCategory;
 import com.xxbb.client.service.solo.ShopCategoryService;
+import com.xxbb.simpleframework.core.annotation.Service;
 
 import java.util.List;
 
 /**
  * @author xxbb
  */
+@Service
 public class ShopCategoryServiceImpl implements ShopCategoryService {
     @Override
     public Result<Boolean> addShopCategory(ShopCategory shopCategory) {

@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,9 +17,42 @@ import java.util.Set;
  */
 
 public class ClassUtil {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ClassUtil.class);
     private final static String FILE_PROTOCOL="file";
     private final static String SUFFIX =".class";
+
+    /**
+     * 反射设置bean对象的值
+     * @param targetBean bean对象
+     * @param field 属性
+     * @param fieldValue 值
+     * @param accessible 是否允许设置私有属性的值
+     */
+    public static void setField(Object targetBean , Field field, Object fieldValue,boolean accessible){
+        field.setAccessible(accessible);
+        try {
+            field.set(targetBean,fieldValue);
+        } catch (IllegalAccessException e) {
+            LoggerUtil.LOGGER.error("setField error:"+e);
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+     * 实例化class对象
+     * @param clazz bean对象的class
+     * @param accessible 是否实例化私有构造方法的对象
+     * @param <T> 泛型
+     * @return bean
+     */
+    public static <T>T newInstance(Class<T> clazz,Boolean accessible){
+        try {
+            Constructor<T> declaredConstructor = clazz.getDeclaredConstructor();
+            declaredConstructor.setAccessible(accessible);
+            return declaredConstructor.newInstance();
+        } catch (Exception e) {
+            LoggerUtil.LOGGER.error("bean newInstance error:",e);
+            throw new RuntimeException(e);
+        }
+    }
     /**
      * 加载类资源
      * @param packageName 需加载类所在的包
@@ -29,7 +65,7 @@ public class ClassUtil {
         //通过类加载器获取到加载的资源,replace是字符或字符串匹配替换，replaceAll是字符或正则替换
         URL url = classLoader.getResource(packageName.replaceAll("\\.", "/"));
         if(null==url){
-            LOGGER.warn("unable to retrieve anything from package: "+packageName);
+            LoggerUtil.LOGGER.warn("unable to retrieve anything from package: "+packageName);
             return null;
         }
         //依据不同的资源类型，采用不同的方式获取资源的集合
@@ -47,7 +83,7 @@ public class ClassUtil {
      * 获取目标package中的所有class文件，包括子package中的文件
      * @param classSet 装载目标类的集合
      * @param fileSource 文件或目录
-     * @param packageName
+     * @param packageName 扫描包名
      */
     private static void extractClassFile(Set<Class<?>> classSet, File fileSource, String packageName) {
         //如果传入文件非文件夹
@@ -79,7 +115,7 @@ public class ClassUtil {
                     Class<?> clazz=Class.forName(className);
                     classSet.add(clazz);
                 } catch (ClassNotFoundException exception) {
-                    LOGGER.error("Load class error:"+exception);
+                    LoggerUtil.LOGGER.error("Load class error:"+exception);
                     throw new RuntimeException(exception);
                 }
 

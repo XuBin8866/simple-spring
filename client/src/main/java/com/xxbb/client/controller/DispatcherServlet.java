@@ -1,5 +1,7 @@
 package com.xxbb.client.controller;
 
+import com.xxbb.simpleframework.core.annotation.Controller;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +13,7 @@ import java.io.IOException;
  * @author xxbb
  */
 @WebServlet("/")
+@Controller
 public class DispatcherServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

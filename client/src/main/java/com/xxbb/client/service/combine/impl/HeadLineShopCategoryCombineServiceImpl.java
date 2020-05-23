@@ -7,14 +7,19 @@ import com.xxbb.client.entity.po.ShopCategory;
 import com.xxbb.client.service.combine.HeadLineShopCategoryCombineService;
 import com.xxbb.client.service.solo.HeadLineService;
 import com.xxbb.client.service.solo.ShopCategoryService;
+import com.xxbb.simpleframework.core.annotation.Service;
+import com.xxbb.simpleframework.inject.annotation.Autowired;
 
 import java.util.List;
 
 /**
  * @author xxbb
  */
+@Service
 public class HeadLineShopCategoryCombineServiceImpl implements HeadLineShopCategoryCombineService {
+    @Autowired("headLineServiceImpl")
     private HeadLineService headLineService;
+    @Autowired("shopCategoryServiceImpl")
     private ShopCategoryService shopCategoryService;
     @Override
     public Result<MainPageInfoDTO> getMainPageInfo() {
@@ -32,5 +37,13 @@ public class HeadLineShopCategoryCombineServiceImpl implements HeadLineShopCateg
 
     private Result<MainPageInfoDTO> mergeMainPageInfo(Result<List<HeadLine>> headLineResult, Result<List<ShopCategory>> ShopCategoryResult) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "HeadLineShopCategoryCombineServiceImpl{" +
+                "headLineService=" + headLineService +
+                ", shopCategoryService=" + shopCategoryService +
+                '}';
     }
 }

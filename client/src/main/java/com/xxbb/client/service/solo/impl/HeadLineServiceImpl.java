@@ -3,12 +3,14 @@ package com.xxbb.client.service.solo.impl;
 import com.xxbb.client.entity.dto.Result;
 import com.xxbb.client.entity.po.HeadLine;
 import com.xxbb.client.service.solo.HeadLineService;
+import com.xxbb.simpleframework.core.annotation.Service;
 
 import java.util.List;
 
 /**
  * @author xxbb
  */
+@Service
 public class HeadLineServiceImpl implements HeadLineService {
     @Override
     public Result<Boolean> addHeadLine(HeadLine headLine) {
