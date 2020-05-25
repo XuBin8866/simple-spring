@@ -1,13 +1,11 @@
 package com.xxbb.simpleframework.util;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +17,7 @@ import java.util.Set;
 public class ClassUtil {
     private final static String FILE_PROTOCOL="file";
     private final static String SUFFIX =".class";
+    private final static Logger LOGGER=LogUtil.getLog();
 
     /**
      * 反射设置bean对象的值
@@ -32,7 +31,7 @@ public class ClassUtil {
         try {
             field.set(targetBean,fieldValue);
         } catch (IllegalAccessException e) {
-            LoggerUtil.LOGGER.error("setField error:"+e);
+            LOGGER.error("setField error:"+e);
             throw new RuntimeException(e);
         }
     }
@@ -49,7 +48,7 @@ public class ClassUtil {
             declaredConstructor.setAccessible(accessible);
             return declaredConstructor.newInstance();
         } catch (Exception e) {
-            LoggerUtil.LOGGER.error("bean newInstance error:",e);
+            LOGGER.error("bean newInstance error:"+e);
             throw new RuntimeException(e);
         }
     }
@@ -65,7 +64,7 @@ public class ClassUtil {
         //通过类加载器获取到加载的资源,replace是字符或字符串匹配替换，replaceAll是字符或正则替换
         URL url = classLoader.getResource(packageName.replaceAll("\\.", "/"));
         if(null==url){
-            LoggerUtil.LOGGER.warn("unable to retrieve anything from package: "+packageName);
+            LOGGER.warn("unable to retrieve anything from package: "+packageName);
             return null;
         }
         //依据不同的资源类型，采用不同的方式获取资源的集合
@@ -115,7 +114,7 @@ public class ClassUtil {
                     Class<?> clazz=Class.forName(className);
                     classSet.add(clazz);
                 } catch (ClassNotFoundException exception) {
-                    LoggerUtil.LOGGER.error("Load class error:"+exception);
+                    LOGGER.error("Load class error:"+exception);
                     throw new RuntimeException(exception);
                 }
 

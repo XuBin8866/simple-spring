@@ -1,15 +1,13 @@
 package com.xxbb.simpleframework.core;
 
-import com.sun.xml.internal.ws.message.MimeAttachmentSet;
 import com.xxbb.simpleframework.core.annotation.Component;
 import com.xxbb.simpleframework.core.annotation.Controller;
 import com.xxbb.simpleframework.core.annotation.Repository;
 import com.xxbb.simpleframework.core.annotation.Service;
 import com.xxbb.simpleframework.util.ClassUtil;
-import com.xxbb.simpleframework.util.LoggerUtil;
+import com.xxbb.simpleframework.util.LogUtil;
 import com.xxbb.simpleframework.util.ValidationUtil;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -31,6 +29,10 @@ public class BeanContainer {
      * 判断容器是否被加载
      */
     private boolean loaded = false;
+    /**
+     * 获取静态日志管理器
+     */
+    private static final Logger LOGGER=LogUtil.getLog();
 
     /**
      * 通过内部枚举类来实现bean容器的单例，线程安全，不会被反射或者序列化破坏
@@ -64,12 +66,12 @@ public class BeanContainer {
      */
     public void loadBeans(String packageName) {
         if (isLoaded()) {
-            LoggerUtil.LOGGER.warn("BeanContainer has been loaded");
+            LOGGER.warn("BeanContainer has been loaded");
             return;
         }
         Set<Class<?>> classSet = ClassUtil.extractPackageClass(packageName);
         if (ValidationUtil.isEmpty(classSet)) {
-            LoggerUtil.LOGGER.warn("Extract nothing from packageName:" + packageName);
+            LOGGER.warn("Extract nothing from packageName:" + packageName);
             return;
         }
         for (Class<?> clazz : classSet) {
@@ -144,7 +146,7 @@ public class BeanContainer {
         //获取beanMap的所有class对象
         Set<Class<?>> keySet = getClasses();
         if (ValidationUtil.isEmpty(keySet)) {
-            LoggerUtil.LOGGER.warn("nothing in beanMap");
+            LOGGER.warn("nothing in beanMap");
             return null;
         }
         //通过注解筛选需要的class对象，并添加到classSet里
@@ -166,7 +168,7 @@ public class BeanContainer {
         //获取beanMap的所有class对象
         Set<Class<?>> keySet = getClasses();
         if (ValidationUtil.isEmpty(keySet)) {
-            LoggerUtil.LOGGER.warn("nothing in beanMap");
+            LOGGER.warn("nothing in beanMap");
             return null;
         }
         //通过注解筛选需要的class对象，并添加到classSet里

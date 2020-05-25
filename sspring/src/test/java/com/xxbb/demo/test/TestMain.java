@@ -1,9 +1,10 @@
 package com.xxbb.demo.test;
 
 import com.xxbb.simpleframework.util.ClassUtil;
+import com.xxbb.simpleframework.util.LogUtil;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.net.URL;
 
 /**
@@ -27,6 +28,18 @@ public class TestMain {
 //            System.out.println("sadas");
 //        }
 
+    }
+    @Test
+    public void testLog() throws InterruptedException {
+        LogUtil.getLog().debug("debug");
+        LogUtil.getLog().error("error");
+        LogUtil.getLog().warn("warn");
+        new Thread(()->{
+            System.out.println(LoggerFactory.getLogger(Thread.currentThread().getName()));
+            System.out.println("thread0"+LogUtil.getLog());
+        }).start();
+        System.out.println(LoggerFactory.getLogger(Thread.currentThread().getName()));
+        System.out.println(LogUtil.getLog());
     }
 
 }

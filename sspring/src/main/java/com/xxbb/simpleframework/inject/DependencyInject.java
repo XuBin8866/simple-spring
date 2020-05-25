@@ -3,9 +3,11 @@ package com.xxbb.simpleframework.inject;
 import com.xxbb.simpleframework.core.BeanContainer;
 import com.xxbb.simpleframework.inject.annotation.Autowired;
 import com.xxbb.simpleframework.util.ClassUtil;
-import com.xxbb.simpleframework.util.LoggerUtil;
+import com.xxbb.simpleframework.util.LogUtil;
 import com.xxbb.simpleframework.util.StringUtil;
 import com.xxbb.simpleframework.util.ValidationUtil;
+import org.slf4j.Logger;
+
 import java.lang.reflect.Field;
 import java.util.Set;
 
@@ -14,7 +16,7 @@ import java.util.Set;
  */
 public class DependencyInject {
     private BeanContainer beanContainer;
-
+    private static final Logger LOGGER=LogUtil.getLog();
     public DependencyInject() {
         beanContainer = BeanContainer.getInstance();
     }
@@ -27,7 +29,7 @@ public class DependencyInject {
         //遍历Bean容器中的所有class对象
         Set<Class<?>> classSet = beanContainer.getClasses();
         if (ValidationUtil.isEmpty(classSet)) {
-            LoggerUtil.LOGGER.warn("There is an empty classSet");
+            LOGGER.warn("There is an empty classSet");
         }
         for (Class<?> clazz : classSet) {
             //遍历class对象的所有成员变量
