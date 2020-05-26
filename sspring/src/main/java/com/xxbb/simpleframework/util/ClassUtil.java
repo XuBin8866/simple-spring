@@ -17,7 +17,7 @@ import java.util.Set;
 public class ClassUtil {
     private final static String FILE_PROTOCOL="file";
     private final static String SUFFIX =".class";
-    private final static Logger LOGGER=LogUtil.getLog();
+    private final static Logger LOGGER=LogUtil.getLogger();
 
     /**
      * 反射设置bean对象的值

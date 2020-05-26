@@ -15,6 +15,9 @@ import java.io.IOException;
 @WebServlet("/")
 @Controller
 public class DispatcherServlet extends HttpServlet {
+    public void showSomething(){
+        System.out.println("this is DispatcherServlet");
+    }
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("request path is:"+req.getServletPath());

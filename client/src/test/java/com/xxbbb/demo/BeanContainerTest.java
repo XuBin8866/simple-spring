@@ -16,37 +16,38 @@ import org.junit.jupiter.api.TestMethodOrder;
 import javax.servlet.http.HttpServlet;
 
 public class BeanContainerTest extends TestCase {
-    private static BeanContainer  beanContainer=BeanContainer.getInstance();
-    private static DependencyInject dependencyInject=new DependencyInject();
+    private static BeanContainer beanContainer = BeanContainer.getInstance();
+    private static DependencyInject dependencyInject = new DependencyInject();
 
 
     @Order(1)
-    public void testLoadBean(){
+    public void testLoadBean() {
         Assert.assertFalse(beanContainer.isLoaded());
         beanContainer.loadBeans("com.xxbb.client");
-        Assert.assertEquals(8,beanContainer.size());
+        Assert.assertEquals(8, beanContainer.size());
         Assert.assertTrue(beanContainer.isLoaded());
     }
 
     @Order(2)
-    public void testGetBean(){
-        MainPageController mainPageController= (MainPageController) beanContainer.getBean(MainPageController.class);
+    public void testGetBean() {
+        MainPageController mainPageController = (MainPageController) beanContainer.getBean(MainPageController.class);
         assertTrue(mainPageController instanceof MainPageController);
     }
 
     @Order(3)
-    public void testAnnotation(){
-        assertEquals(3,beanContainer.getClassesByAnnotation(Controller.class).size());
+    public void testAnnotation() {
+        assertEquals(3, beanContainer.getClassesByAnnotation(Controller.class).size());
     }
-    public void testSuper(){
+
+    public void testSuper() {
         assertTrue(beanContainer.getClassesBySuper(HttpServlet.class).contains(MainPageController.class));
     }
 
     @Order(4)
-    public void testIoc(){
+    public void testIoc() {
         System.out.println(beanContainer.getBeans());
         dependencyInject.doIoC();
-        Object obj=beanContainer.getBean(HeadLineShopCategoryCombineServiceImpl.class);
+        Object obj = beanContainer.getBean(HeadLineShopCategoryCombineServiceImpl.class);
         System.out.println(obj);
     }
 }

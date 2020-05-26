@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
  * @author xxbb
  */
 public class LogUtil {
-    public static Logger getLog(){
+    public static Logger getLogger(){
         return LoggerFactory.getLogger(Thread.currentThread().getName());
     }
 }

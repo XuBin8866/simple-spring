@@ -1,5 +1,6 @@
 package com.xxbb.simpleframework.core;
 
+import com.xxbb.simpleframework.aop.annotation.Aspect;
 import com.xxbb.simpleframework.core.annotation.Component;
 import com.xxbb.simpleframework.core.annotation.Controller;
 import com.xxbb.simpleframework.core.annotation.Repository;
@@ -24,7 +25,8 @@ public class BeanContainer {
     /**
      * 加载bean的注解列表
      */
-    private static final List<Class<? extends Annotation>> BEAN_ANNOTATION = Arrays.asList(Component.class, Controller.class, Service.class, Repository.class);
+    private static final List<Class<? extends Annotation>> BEAN_ANNOTATION = Arrays.asList(
+            Component.class, Controller.class, Service.class, Repository.class, Aspect.class);
     /**
      * 判断容器是否被加载
      */
@@ -32,7 +34,7 @@ public class BeanContainer {
     /**
      * 获取静态日志管理器
      */
-    private static final Logger LOGGER=LogUtil.getLog();
+    private static final Logger LOGGER=LogUtil.getLogger();
 
     /**
      * 通过内部枚举类来实现bean容器的单例，线程安全，不会被反射或者序列化破坏

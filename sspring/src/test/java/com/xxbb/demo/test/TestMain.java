@@ -31,15 +31,15 @@ public class TestMain {
     }
     @Test
     public void testLog() throws InterruptedException {
-        LogUtil.getLog().debug("debug");
-        LogUtil.getLog().error("error");
-        LogUtil.getLog().warn("warn");
+        LogUtil.getLogger().debug("debug");
+        LogUtil.getLogger().error("error");
+        LogUtil.getLogger().warn("warn");
         new Thread(()->{
             System.out.println(LoggerFactory.getLogger(Thread.currentThread().getName()));
-            System.out.println("thread0"+LogUtil.getLog());
+            System.out.println("thread0"+LogUtil.getLogger());
         }).start();
         System.out.println(LoggerFactory.getLogger(Thread.currentThread().getName()));
-        System.out.println(LogUtil.getLog());
+        System.out.println(LogUtil.getLogger());
     }
 
 }

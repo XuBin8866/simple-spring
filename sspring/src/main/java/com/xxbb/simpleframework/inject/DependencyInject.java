@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class DependencyInject {
     private BeanContainer beanContainer;
-    private static final Logger LOGGER=LogUtil.getLog();
+    private static final Logger LOGGER=LogUtil.getLogger();
     public DependencyInject() {
         beanContainer = BeanContainer.getInstance();
     }
