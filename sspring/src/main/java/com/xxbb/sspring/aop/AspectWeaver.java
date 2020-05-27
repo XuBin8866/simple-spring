@@ -1,11 +1,11 @@
-package com.xxbb.simpleframework.aop;
+package com.xxbb.sspring.aop;
 
-import com.xxbb.simpleframework.aop.annotation.Aspect;
-import com.xxbb.simpleframework.aop.annotation.Order;
-import com.xxbb.simpleframework.aop.aspect.AspectInfo;
-import com.xxbb.simpleframework.aop.aspect.DefaultAspect;
-import com.xxbb.simpleframework.core.BeanContainer;
-import com.xxbb.simpleframework.util.ValidationUtil;
+import com.xxbb.sspring.aop.annotation.Aspect;
+import com.xxbb.sspring.aop.annotation.Order;
+import com.xxbb.sspring.aop.aspect.AspectInfo;
+import com.xxbb.sspring.aop.aspect.DefaultAspect;
+import com.xxbb.sspring.core.BeanContainer;
+import com.xxbb.sspring.util.ValidationUtil;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
@@ -21,28 +21,36 @@ public class AspectWeaver {
     public void doAOP(){
         //1.获取所有的切面类
         Set<Class<?>> aspectSet = beanContainer.getClassesByAnnotation(Aspect.class);
-        //2.将切面类按照不同的织入目标进行切分
-        Map<Class<? extends Annotation>, List<AspectInfo>> categorizedMap=new HashMap<>();
-        if(ValidationUtil.isEmpty(aspectSet)){
-            return;
-        }
-        for(Class<?> aspectClass: aspectSet){
-            if(verifyAspect(aspectClass)){
-                categorizedAspect(categorizedMap,aspectClass);
-            }else{
-                throw new RuntimeException("@Aspect and @Order have not been added to the Aspect class, " +
-                        "or Aspect class does not extend from DefaultAspect," +
-                        "or the value int Aspect Tag equals @Aspect");
+        //2.拼装AspectInfoList
+        List<AspectInfo> aspectInfoList=packAspectInfoList(aspectSet);
+        //3.遍历容器里的类
+        Set<Class<?>> classSet = beanContainer.getClasses();
+        for(Class<?> targetClass:classSet){
+            //排除被Aspect注解的类本身
+            if(targetClass.isAnnotationPresent(Aspect.class)){
+                continue;
             }
+            //4.粗筛符合条件的Aspect
+            List<AspectInfo> roughMatchedAspectList=collectRoughMatchedAspectListForSpecificClass(aspectInfoList,targetClass);
+            //5.尝试进行Aspect织入
+            wrapIfNecessary(roughMatchedAspectList,targetClass);
         }
-        //3.按照不同的织入目标分别去按序织入Aspect的逻辑
-        if(ValidationUtil.isEmpty(categorizedMap)){
-            return;
-        }
-        for(Class<? extends Annotation> category: categorizedMap.keySet()){
-            waveByCategory(category,categorizedMap.get(category));
-        }
+
     }
+
+
+
+    private void wrapIfNecessary(List<AspectInfo> roughMatchedAspectList, Class<?> targetClass) {
+    }
+
+
+    private List<AspectInfo> collectRoughMatchedAspectListForSpecificClass(List<AspectInfo> aspectInfoList, Class<?> targetClass) {
+        return null;
+    }
+    private List<AspectInfo> packAspectInfoList(Set<Class<?>> aspectSet) {
+        return null;
+    }
+
 
     /**
      * 将通知织入目标对象中

@@ -3,7 +3,7 @@ package com.xxbb.client.service.solo.impl;
 import com.xxbb.client.entity.dto.Result;
 import com.xxbb.client.entity.po.HeadLine;
 import com.xxbb.client.service.solo.HeadLineService;
-import com.xxbb.simpleframework.core.annotation.Service;
+import com.xxbb.sspring.core.annotation.Service;
 
 import java.util.List;
 

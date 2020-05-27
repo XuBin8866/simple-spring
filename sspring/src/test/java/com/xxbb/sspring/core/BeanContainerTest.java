@@ -1,6 +1,6 @@
-package com.xxbb.simpleframework.core;
+package com.xxbb.sspring.core;
 
-import com.xxbb.simpleframework.util.LogUtil;
+import com.xxbb.sspring.util.LogUtil;
 import junit.framework.TestCase;
 
 public class BeanContainerTest extends TestCase {

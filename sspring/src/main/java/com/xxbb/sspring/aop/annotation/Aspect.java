@@ -1,4 +1,4 @@
-package com.xxbb.simpleframework.aop.annotation;
+package com.xxbb.sspring.aop.annotation;
 
 import java.lang.annotation.*;
 

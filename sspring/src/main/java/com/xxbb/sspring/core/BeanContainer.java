@@ -1,13 +1,13 @@
-package com.xxbb.simpleframework.core;
+package com.xxbb.sspring.core;
 
-import com.xxbb.simpleframework.aop.annotation.Aspect;
-import com.xxbb.simpleframework.core.annotation.Component;
-import com.xxbb.simpleframework.core.annotation.Controller;
-import com.xxbb.simpleframework.core.annotation.Repository;
-import com.xxbb.simpleframework.core.annotation.Service;
-import com.xxbb.simpleframework.util.ClassUtil;
-import com.xxbb.simpleframework.util.LogUtil;
-import com.xxbb.simpleframework.util.ValidationUtil;
+import com.xxbb.sspring.aop.annotation.Aspect;
+import com.xxbb.sspring.core.annotation.Component;
+import com.xxbb.sspring.core.annotation.Controller;
+import com.xxbb.sspring.core.annotation.Repository;
+import com.xxbb.sspring.core.annotation.Service;
+import com.xxbb.sspring.util.ClassUtil;
+import com.xxbb.sspring.util.LogUtil;
+import com.xxbb.sspring.util.ValidationUtil;
 import org.slf4j.Logger;
 
 import java.lang.annotation.Annotation;

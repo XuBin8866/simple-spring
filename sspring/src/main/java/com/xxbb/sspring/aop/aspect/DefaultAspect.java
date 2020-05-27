@@ -1,4 +1,4 @@
-package com.xxbb.simpleframework.aop.aspect;
+package com.xxbb.sspring.aop.aspect;
 
 import java.lang.reflect.Method;
 

@@ -1,4 +1,4 @@
-package com.xxbb.simpleframework.aop;
+package com.xxbb.sspring.aop;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;

@@ -1,4 +1,6 @@
-package com.xxbb.simpleframework.aop.aspect;
+package com.xxbb.sspring.aop.aspect;
+
+import com.xxbb.sspring.aop.PointcutLocator;
 
 /**
  * @author xxbb
@@ -6,13 +8,15 @@ package com.xxbb.simpleframework.aop.aspect;
 public class AspectInfo {
     private int orderIndex;
     private DefaultAspect aspectObject;
+    private PointcutLocator pointcutLocator;
 
     public AspectInfo() {
     }
 
-    public AspectInfo(int orderIndex, DefaultAspect aspectObject) {
+    public AspectInfo(int orderIndex, DefaultAspect aspectObject, PointcutLocator pointcutLocator) {
         this.orderIndex = orderIndex;
         this.aspectObject = aspectObject;
+        this.pointcutLocator = pointcutLocator;
     }
 
     public int getOrderIndex() {
@@ -21,5 +25,9 @@ public class AspectInfo {
 
     public DefaultAspect getAspectObject() {
         return aspectObject;
+    }
+
+    public PointcutLocator getPointcutLocator() {
+        return pointcutLocator;
     }
 }

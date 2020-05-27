@@ -1,10 +1,10 @@
 package com.xxbb.client.aspect;
 
-import com.xxbb.simpleframework.aop.annotation.Aspect;
-import com.xxbb.simpleframework.aop.annotation.Order;
-import com.xxbb.simpleframework.aop.aspect.DefaultAspect;
-import com.xxbb.simpleframework.core.annotation.Controller;
-import com.xxbb.simpleframework.util.LogUtil;
+import com.xxbb.sspring.aop.annotation.Aspect;
+import com.xxbb.sspring.aop.annotation.Order;
+import com.xxbb.sspring.aop.aspect.DefaultAspect;
+import com.xxbb.sspring.core.annotation.Controller;
+import com.xxbb.sspring.util.LogUtil;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Method;

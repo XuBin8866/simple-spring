@@ -1,9 +1,9 @@
 package com.xxbb.client;
 
 import com.xxbb.client.controller.DispatcherServlet;
-import com.xxbb.simpleframework.aop.AspectWeaver;
-import com.xxbb.simpleframework.core.BeanContainer;
-import com.xxbb.simpleframework.inject.DependencyInject;
+import com.xxbb.sspring.aop.AspectWeaver;
+import com.xxbb.sspring.core.BeanContainer;
+import com.xxbb.sspring.inject.DependencyInject;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.DisplayName;
 

@@ -2,10 +2,10 @@ package com.xxbb.demo.test;
 
 import com.xxbb.client.controller.DispatcherServlet;
 import com.xxbb.demo.annotation.AnnotationService;
-import com.xxbb.simpleframework.aop.AspectWeaver;
-import com.xxbb.simpleframework.core.BeanContainer;
-import com.xxbb.simpleframework.inject.DependencyInject;
-import com.xxbb.simpleframework.util.ClassUtil;
+import com.xxbb.sspring.aop.AspectWeaver;
+import com.xxbb.sspring.core.BeanContainer;
+import com.xxbb.sspring.inject.DependencyInject;
+import com.xxbb.sspring.util.ClassUtil;
 import java.util.Set;
 
 

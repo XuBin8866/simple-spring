@@ -1,4 +1,4 @@
-package com.xxbb.simpleframework.util;
+package com.xxbb.sspring.util;
 
 import java.util.Collection;
 import java.util.Map;

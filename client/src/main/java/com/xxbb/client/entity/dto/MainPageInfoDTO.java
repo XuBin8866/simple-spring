@@ -2,7 +2,7 @@ package com.xxbb.client.entity.dto;
 
 import com.xxbb.client.entity.po.HeadLine;
 import com.xxbb.client.entity.po.ShopCategory;
-import com.xxbb.simpleframework.core.annotation.Repository;
+import com.xxbb.sspring.core.annotation.Repository;
 import lombok.Data;
 
 import java.util.List;

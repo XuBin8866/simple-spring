@@ -1,4 +1,4 @@
-package com.xxbb.simpleframework.util;
+package com.xxbb.sspring.util;
 
 import org.slf4j.Logger;
 

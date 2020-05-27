@@ -1,6 +1,6 @@
 package com.xxbb.client.entity.dto;
 
-import com.xxbb.simpleframework.core.annotation.Repository;
+import com.xxbb.sspring.core.annotation.Repository;
 
 /**
  * @author xxbb

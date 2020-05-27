@@ -1,11 +1,11 @@
-package com.xxbb.simpleframework.inject;
+package com.xxbb.sspring.inject;
 
-import com.xxbb.simpleframework.core.BeanContainer;
-import com.xxbb.simpleframework.inject.annotation.Autowired;
-import com.xxbb.simpleframework.util.ClassUtil;
-import com.xxbb.simpleframework.util.LogUtil;
-import com.xxbb.simpleframework.util.StringUtil;
-import com.xxbb.simpleframework.util.ValidationUtil;
+import com.xxbb.sspring.core.BeanContainer;
+import com.xxbb.sspring.inject.annotation.Autowired;
+import com.xxbb.sspring.util.ClassUtil;
+import com.xxbb.sspring.util.LogUtil;
+import com.xxbb.sspring.util.StringUtil;
+import com.xxbb.sspring.util.ValidationUtil;
 import org.slf4j.Logger;
 
 import java.lang.reflect.Field;

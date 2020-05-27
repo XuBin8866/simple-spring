@@ -1,7 +1,7 @@
 package com.xxbb.demo.test;
 
-import com.xxbb.simpleframework.util.ClassUtil;
-import com.xxbb.simpleframework.util.LogUtil;
+import com.xxbb.sspring.util.ClassUtil;
+import com.xxbb.sspring.util.LogUtil;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;
 

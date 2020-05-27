@@ -1,6 +1,6 @@
 package com.xxbb.client.controller;
 
-import com.xxbb.simpleframework.core.annotation.Controller;
+import com.xxbb.sspring.core.annotation.Controller;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

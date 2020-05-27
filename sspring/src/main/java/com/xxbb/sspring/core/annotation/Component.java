@@ -1,5 +1,4 @@
-package com.xxbb.simpleframework.aop.annotation;
-
+package com.xxbb.sspring.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,6 +10,5 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Order {
-    int value();
+public @interface Component {
 }

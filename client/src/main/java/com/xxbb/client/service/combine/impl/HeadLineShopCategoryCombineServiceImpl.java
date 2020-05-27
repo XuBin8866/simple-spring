@@ -7,8 +7,8 @@ import com.xxbb.client.entity.po.ShopCategory;
 import com.xxbb.client.service.combine.HeadLineShopCategoryCombineService;
 import com.xxbb.client.service.solo.HeadLineService;
 import com.xxbb.client.service.solo.ShopCategoryService;
-import com.xxbb.simpleframework.core.annotation.Service;
-import com.xxbb.simpleframework.inject.annotation.Autowired;
+import com.xxbb.sspring.core.annotation.Service;
+import com.xxbb.sspring.inject.annotation.Autowired;
 
 import java.util.List;
 

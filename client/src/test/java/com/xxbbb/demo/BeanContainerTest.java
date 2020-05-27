@@ -1,17 +1,13 @@
 package com.xxbbb.demo;
 
 import com.xxbb.client.controller.MainPageController;
-import com.xxbb.client.service.combine.HeadLineShopCategoryCombineService;
 import com.xxbb.client.service.combine.impl.HeadLineShopCategoryCombineServiceImpl;
-import com.xxbb.simpleframework.core.BeanContainer;
-import com.xxbb.simpleframework.core.annotation.Controller;
-import com.xxbb.simpleframework.inject.DependencyInject;
+import com.xxbb.sspring.core.BeanContainer;
+import com.xxbb.sspring.core.annotation.Controller;
+import com.xxbb.sspring.inject.DependencyInject;
 import junit.framework.TestCase;
 import org.junit.Assert;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
 
 import javax.servlet.http.HttpServlet;
 
