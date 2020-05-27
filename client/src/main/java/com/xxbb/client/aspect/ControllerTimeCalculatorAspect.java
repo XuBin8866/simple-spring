@@ -37,4 +37,9 @@ public class ControllerTimeCalculatorAspect extends DefaultAspect {
     public void afterThrowing(Class<?> targetClass, Method method, Object[] args, Throwable throwable) throws Throwable {
         super.afterThrowing(targetClass, method, args, throwable);
     }
+
+    @Override
+    public void after(Class<?> targetClass, Method method, Object[] args) throws Throwable {
+        logger.info("执行最终方法");
+    }
 }

@@ -50,6 +50,9 @@ public class AspectListExecutor implements MethodInterceptor {
         }catch (Exception e){
             //4.如果代理方法返回异常，则安装order的顺序降序执行完所有的Aspect的afterThrowing方法
             invokeAfterThrowingAdvices(method,args,e);
+        }finally{
+            //最终通知
+            invokeAfterAdvices(method,args);
         }
 
 
@@ -58,10 +61,22 @@ public class AspectListExecutor implements MethodInterceptor {
     }
 
     /**
+     * 代理方法执行完成后，降序执行所有Aspect的after方法
+     * @param method  方法
+     * @param args 方法参数
+     * @throws Throwable 异常
+     */
+    private void invokeAfterAdvices(Method method, Object[] args) throws Throwable {
+        for(int i=sortedAspectInfoList.size()-1;i>=0;i--){
+            sortedAspectInfoList.get(i).getAspectObject().after(targetClass,method,args);
+        }
+    }
+
+    /**
      * 如果代理方法返回异常，则安装order的顺序降序执行完所有的Aspect的afterThrowing方法
-     * @param method
-     * @param args
-     * @param e
+     * @param method 方法
+     * @param args 方法参数
+     * @param e 异常传入值
      */
     private void invokeAfterThrowingAdvices(Method method, Object[] args, Exception e) throws Throwable {
         for(int i=sortedAspectInfoList.size()-1;i>=0;i--){

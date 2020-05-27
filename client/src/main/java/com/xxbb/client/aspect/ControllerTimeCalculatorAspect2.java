@@ -21,4 +21,8 @@ public class ControllerTimeCalculatorAspect2 extends DefaultAspect {
         logger.debug("理论上第二个执行的前置方法");
 
     }
+    @Override
+    public void after(Class<?> targetClass, Method method, Object[] args) throws Throwable {
+        logger.info("执行最终方法2");
+    }
 }

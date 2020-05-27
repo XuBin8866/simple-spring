@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
  */
 public abstract class DefaultAspect {
     /**
-     * 事前拦截
+     * 前置通知
      * @param targetClass 被代理的目标类
      * @param method 被代理的目标方法
      * @param args 被代理的目标方法对应的参数列表
@@ -18,7 +18,7 @@ public abstract class DefaultAspect {
     }
 
     /**
-     * 事后拦截
+     * 后置通知
      * @param targetClass 被代理的目标类
      * @param method 被代理的目标方法
      * @param args 被代理的目标方法对应的参数列表
@@ -30,7 +30,7 @@ public abstract class DefaultAspect {
     }
 
     /**
-     * 异常拦截
+     * 异常通知
      * @param targetClass 被代理的目标类
      * @param method 被代理的目标方法
      * @param args 被代理的目标方法对应的参数列表
@@ -38,6 +38,16 @@ public abstract class DefaultAspect {
      * @throws Throwable 抛出异常
      */
     public void afterThrowing(Class<?> targetClass,Method method,Object[] args,Throwable throwable) throws Throwable{
+
+    }
+    /**
+     * 最终通知
+     * @param targetClass 被代理的目标类
+     * @param method 被代理的目标方法
+     * @param args 被代理的目标方法对应的参数列表
+
+     */
+    public void after(Class<?> targetClass, Method method, Object[] args) throws Throwable{
 
     }
 }
