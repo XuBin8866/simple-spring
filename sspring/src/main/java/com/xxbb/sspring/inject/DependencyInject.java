@@ -24,7 +24,7 @@ public class DependencyInject {
     /**
      * 依赖注入
      */
-    public void doIoC() {
+    public void doDependencyInject() {
 
         //遍历Bean容器中的所有class对象
         Set<Class<?>> classSet = beanContainer.getClasses();

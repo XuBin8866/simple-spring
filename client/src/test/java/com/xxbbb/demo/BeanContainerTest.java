@@ -42,7 +42,7 @@ public class BeanContainerTest extends TestCase {
     @Order(4)
     public void testIoc() {
         System.out.println(beanContainer.getBeans());
-        dependencyInject.doIoC();
+        dependencyInject.doDependencyInject();
         Object obj = beanContainer.getBean(HeadLineShopCategoryCombineServiceImpl.class);
         System.out.println(obj);
     }

@@ -19,7 +19,7 @@ public class AspectWeaver {
     public AspectWeaver(){
         this.beanContainer=BeanContainer.getInstance();
     }
-    public void doAOP(){
+    public void doAspectOrientedProgramming(){
         //1.获取所有的切面类
         Set<Class<?>> aspectSet = beanContainer.getClassesByAnnotation(Aspect.class);
         //2.拼装AspectInfoList

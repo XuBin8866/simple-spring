@@ -15,8 +15,8 @@ public class TestMain extends TestCase {
     public void testAop() {
         BeanContainer beanContainer = BeanContainer.getInstance();
         beanContainer.loadBeans("com.xxbb.client");
-        new AspectWeaver().doAOP();
-        new DependencyInject().doIoC();
+        new AspectWeaver().doAspectOrientedProgramming();
+        new DependencyInject().doDependencyInject();
         DispatcherServlet dispatcherServlet= (DispatcherServlet) beanContainer.getBean(DispatcherServlet.class);
         dispatcherServlet.showSomething();
     }

@@ -28,8 +28,8 @@ public class TestMain{
     public static void AopTest(){
         BeanContainer beanContainer = BeanContainer.getInstance();
         beanContainer.loadBeans("com.xxbb.client");
-        new AspectWeaver().doAOP();
-        new DependencyInject().doIoC();
+        new AspectWeaver().doAspectOrientedProgramming();
+        new DependencyInject().doDependencyInject();
         DispatcherServlet dispatcherServlet= (DispatcherServlet) beanContainer.getBean(DispatcherServlet.class);
         dispatcherServlet.showSomething();
     }
