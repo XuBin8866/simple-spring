@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 /**
  * @author xxbb
  */
-@Aspect(value = Controller.class)
+@Aspect(pointcut = "within(com.xxbb.client.controller.*)")
 @Order(0)
 public class ControllerTimeCalculatorAspect extends DefaultAspect {
     private long timestampCache;

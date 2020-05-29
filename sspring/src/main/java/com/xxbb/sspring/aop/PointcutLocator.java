@@ -35,13 +35,16 @@ public class PointcutLocator {
      */
     public boolean roughMatches(Class<?> targetClass){
         //只能校验within语法，其他语法的表达式直接返回true
+        //这意味着如果一个类有多个切面表达式准备织入，如果within表达式，则可以判断是否符合该类
+        //如果是execution表达式，粗筛无法判断，即使表达式对应的不是该目标类，也会将该切面存入该类的切面数组中
+        //需要依赖下一步精筛来排除那些不属于该类的切面方
         return pointcutExpression.couldMatchJoinPointsInType(targetClass);
     }
 
     /**
      * 判断传入的Method对象是否是Aspect的目标代理方法，即匹配Pointcut表达式（精确筛选）
-     * @param method
-     * @return
+     * @param method 方法
+     * @return 是否匹配具体方法
      */
     public boolean accurateMatches(Method method){
         ShadowMatch shadowMatch=pointcutExpression.matchesMethodExecution(method);

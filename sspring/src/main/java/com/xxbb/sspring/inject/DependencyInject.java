@@ -50,6 +50,7 @@ public class DependencyInject {
                     }
                     //通过反射将对应的成员变量实例注入到成员变量中
                     Object targetBean = beanContainer.getBean(clazz);
+                    LogUtil.getLogger().debug("Dependency inject for class: "+clazz.getName()+";injected value："+fieldClass.getName());
                     ClassUtil.setField(targetBean, field, fieldValue, true);
 
                 }

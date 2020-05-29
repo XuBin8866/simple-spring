@@ -80,6 +80,7 @@ public class BeanContainer {
             for (Class<? extends Annotation> annotation : BEAN_ANNOTATION) {
                 //如果类对象中存在注解则加载进bean容器中
                 if (clazz.isAnnotationPresent(annotation)) {
+                    LOGGER.debug("load bean: "+clazz.getName());
                     beanMap.put(clazz, ClassUtil.newInstance(clazz, true));
                 }
             }

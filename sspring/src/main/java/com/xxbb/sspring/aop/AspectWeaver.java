@@ -5,6 +5,7 @@ import com.xxbb.sspring.aop.annotation.Order;
 import com.xxbb.sspring.aop.aspect.AspectInfo;
 import com.xxbb.sspring.aop.aspect.DefaultAspect;
 import com.xxbb.sspring.core.BeanContainer;
+import com.xxbb.sspring.util.LogUtil;
 import com.xxbb.sspring.util.ValidationUtil;
 
 import java.lang.annotation.Annotation;
@@ -39,65 +40,61 @@ public class AspectWeaver {
     }
 
 
-
-    private void wrapIfNecessary(List<AspectInfo> roughMatchedAspectList, Class<?> targetClass) {
-    }
-
-
-    private List<AspectInfo> collectRoughMatchedAspectListForSpecificClass(List<AspectInfo> aspectInfoList, Class<?> targetClass) {
-        return null;
-    }
-    private List<AspectInfo> packAspectInfoList(Set<Class<?>> aspectSet) {
-        return null;
-    }
-
-
     /**
-     * 将通知织入目标对象中
-     * @param category 被代理的目标对象的注解
-     * @param aspectInfoList 通知集合
+     * 将切面织入目标类
+     * @param roughMatchedAspectList 粗筛的切面类
+     * @param targetClass 目标对象
      */
-    private void waveByCategory(Class<? extends Annotation> category, List<AspectInfo> aspectInfoList) {
-        //获取被代理类的集合
-        Set<Class<?>> classSet = beanContainer.getClassesByAnnotation(category);
-        //遍历被代理类，分别为每个被代理类生成动态代理实例
-        if(ValidationUtil.isEmpty(classSet)){
+    private void wrapIfNecessary(List<AspectInfo> roughMatchedAspectList, Class<?> targetClass) {
+        if(ValidationUtil.isEmpty(roughMatchedAspectList)){
             return;
         }
-        for(Class<?> targetClass:classSet){
-            //创建动态代理对象
-            AspectListExecutor aspectListExecutor=new AspectListExecutor(targetClass,aspectInfoList);
-            Object proxyBean=ProxyCreator.createProxy(targetClass,aspectListExecutor);
-            //将动态代理对象添加到容器中，取代未被代理前的类实例
-            beanContainer.addBean(targetClass,proxyBean);
-        }
-
-
+        //创建目标类的动态代理对象，将切面方法进行织入
+        AspectListExecutor aspectListExecutor=new AspectListExecutor(targetClass,roughMatchedAspectList);
+        Object proxyBean=ProxyCreator.createProxy(targetClass,aspectListExecutor);
+        beanContainer.addBean(targetClass,proxyBean);
     }
 
     /**
-     * 将切面类按照不同的织入目标分别去按序织入Aspect逻辑
-     * @param categorizedMap
-     * @param aspectClass
+     * 粗筛切面类
+     * @param aspectInfoList 所有的切面类组成的数组
+     * @param targetClass 需要进行织入操作的目标类
+     * @return 目标类需要的切面类的数组
      */
-    private void categorizedAspect(Map<Class<? extends Annotation>, List<AspectInfo>> categorizedMap, Class<?> aspectClass) {
-        //获取标签
-        Order orderTag=aspectClass.getAnnotation(Order.class);
-        Aspect aspectTag=aspectClass.getAnnotation(Aspect.class);
-        //获取切面对象
-        DefaultAspect aspect=(DefaultAspect)beanContainer.getBean(aspectClass);
-        //获取切面信息
-        AspectInfo aspectInfo=new AspectInfo(orderTag.value(),aspect);
-        if(!categorizedMap.containsKey(aspectTag.value())){
-            //如果织入的join point第一次出现，则该joinPoint为key，以新创建的List<AspectInfo>为value
-            List<AspectInfo> aspectInfoList=new ArrayList<>();
-            aspectInfoList.add(aspectInfo);
-            categorizedMap.put(aspectTag.value(),aspectInfoList);
-        }else{
-            //如果织入的joinPoint不是第一次出现，则往joinPoint对应的Value中添加新的Aspect逻辑
-            List<AspectInfo> aspectInfoList=categorizedMap.get(aspectTag.value());
-            aspectInfoList.add(aspectInfo);
+    private List<AspectInfo> collectRoughMatchedAspectListForSpecificClass(List<AspectInfo> aspectInfoList, Class<?> targetClass) {
+        List<AspectInfo> roughMatchedAspectList=new ArrayList<>();
+        for(AspectInfo aspectInfo:aspectInfoList){
+            if(aspectInfo.getPointcutLocator().roughMatches(targetClass)){
+                roughMatchedAspectList.add(aspectInfo);
+            }
         }
+        return roughMatchedAspectList;
+    }
+
+    /**
+     * 将所有的切面类的信息（Order、DefaultAspect、pointcut）封装成封装成一个Aspect数组
+     * @param aspectSet 切面类set集合
+     * @return 数组
+     */
+    private List<AspectInfo> packAspectInfoList(Set<Class<?>> aspectSet) {
+        List<AspectInfo> aspectInfoList=new ArrayList<>();
+        for(Class<?> aspectClass: aspectSet){
+            if(verifyAspect(aspectClass)){
+                //获取该切面类的数据
+                Order orderTag=aspectClass.getAnnotation(Order.class);
+                Aspect aspectTag=aspectClass.getAnnotation(Aspect.class);
+                DefaultAspect defaultAspect= (DefaultAspect) beanContainer.getBean(aspectClass);
+                //初始化表达式定位器
+                PointcutLocator pointcutLocator=new PointcutLocator(aspectTag.pointcut());
+                AspectInfo aspectInfo=new AspectInfo(orderTag.value(),defaultAspect,pointcutLocator);
+                aspectInfoList.add(aspectInfo);
+            }else{
+                LogUtil.getLogger().error("packAspectInfoList error!");
+                throw new RuntimeException("@Aspect and @Order must be added to the Aspect class, and Aspect class must extend from DefaultAspect");
+            }
+
+        }
+        return aspectInfoList;
     }
 
     /**
@@ -109,7 +106,6 @@ public class AspectWeaver {
     private boolean verifyAspect(Class<?> aspectClass) {
         return aspectClass.isAnnotationPresent(Aspect.class)&&
                 aspectClass.isAnnotationPresent(Order.class)&&
-                DefaultAspect.class.isAssignableFrom(aspectClass)&&
-                aspectClass.getAnnotation(Aspect.class).value()!=Aspect.class;
+                DefaultAspect.class.isAssignableFrom(aspectClass);
     }
 }

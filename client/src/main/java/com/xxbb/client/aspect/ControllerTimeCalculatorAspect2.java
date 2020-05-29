@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 /**
  * @author xxbb
  */
-@Aspect(value = Controller.class)
+@Aspect(pointcut = "execution(* com.xxbb.client.controller..*.*(..))")
 @Order(1)
 public class ControllerTimeCalculatorAspect2 extends DefaultAspect {
     private final Logger logger= LogUtil.getLogger();

@@ -6,6 +6,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public class AspectListExecutor implements MethodInterceptor {
      */
     private Class<?> targetClass;
     /**
-     * 切面数组
+     * 排好序的切面列表
      */
     private List<AspectInfo> sortedAspectInfoList;
 
@@ -32,8 +33,12 @@ public class AspectListExecutor implements MethodInterceptor {
     @Override
     public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
         Object returnValue=null;
+        //对切面方法进行精确筛选
+        collectAccurateMatchedAspectList(method);
+        //没有切面对方法进行增强的情况
         if(ValidationUtil.isEmpty(sortedAspectInfoList)){
-            return null;
+            returnValue=methodProxy.invokeSuper(o,args);
+            return returnValue;
         }
         //1.按照order的顺序升序执行完所有的Aspect的before方法
         invokeBeforeAdvices(method,args);
@@ -51,10 +56,22 @@ public class AspectListExecutor implements MethodInterceptor {
             invokeAfterAdvices(method,args);
         }
 
-
-
-        return null;
+        return returnValue;
     }
+
+    /**
+     * 根据当前被代理的目标方法精确筛选切面方法
+     * @param method 被代理的目标方法
+     */
+    private void collectAccurateMatchedAspectList(Method method) {
+        if(ValidationUtil.isEmpty(sortedAspectInfoList)){
+            return;
+        }
+        //将不需要的切面方法去除
+        sortedAspectInfoList.removeIf(aspectInfo -> !aspectInfo.getPointcutLocator().accurateMatches(method));
+
+    }
+
 
     /**
      * 代理方法执行完成后，降序执行所有Aspect的after方法
