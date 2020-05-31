@@ -31,7 +31,7 @@ public class StaticResourceRequestProcessor implements RequestProcessor {
         //通过请求路径判断是否为静态资源
         if(isStaticResource(requestProcessorChain.getRequestPath())){
             //如果是静态资源，则交给default servlet处理
-            LogUtil.getLogger().info("static path: {}",requestProcessorChain.getRequestPath());
+            LogUtil.getLogger().info("static requestPath: {}",requestProcessorChain.getRequestPath());
             defaultDispatcher.forward(requestProcessorChain.getReq(),requestProcessorChain.getResp());
             return false;
         }

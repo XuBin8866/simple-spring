@@ -8,6 +8,11 @@ import com.xxbb.sspring.mvc.render.ResultRender;
  * @author xxbb
  */
 public class ResourceNotFoundResultRender implements ResultRender {
+
+    public ResourceNotFoundResultRender(String method, String path) {
+
+    }
+
     @Override
     public void render(RequestProcessorChain requestProcessorChain) throws Exception {
 

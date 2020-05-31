@@ -19,7 +19,7 @@ public class JspRequestProcessor implements RequestProcessor {
     /**
      * jsp请求资源的前缀
      */
-    private static final String JSP_RESOURCE_PREFIX="/temp/";
+    private static final String JSP_RESOURCE_PREFIX="/";
     /**
      * jsp的RequestDispatcher,处理jsp资源
      */

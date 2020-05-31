@@ -22,10 +22,11 @@ public class PreRequestProcessor implements RequestProcessor {
         //将请求路径末尾的/删除，为后续匹配Controller请求路径做准备
         // （一般Controller的处理路径是/aaa/bbb，所以如果传入的路径结尾是/aaa/bbb/，就需要处理成/aaa/bbb）
         String requestPath=requestProcessorChain.getRequestPath();
+        log.info("original requestPath: {}",requestPath);
         if(requestPath.length()>1&&requestPath.endsWith(REQUEST_PATH_END)){
             requestProcessorChain.setRequestPath(requestPath.substring(0,requestPath.length()-1));
         }
-        log.info("preprocess request {} {}", requestProcessorChain.getRequestMethod(), requestProcessorChain.getRequestPath());
+        log.info("preprocess requestMethod: {}, requestPath: {}", requestProcessorChain.getRequestMethod(), requestProcessorChain.getRequestPath());
         return true;
     }
 }
