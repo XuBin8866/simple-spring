@@ -5,8 +5,12 @@ import com.xxbb.sspring.core.annotation.Controller;
 import com.xxbb.sspring.mvc.RequestProcessorChain;
 import com.xxbb.sspring.mvc.annotation.RequestMapping;
 import com.xxbb.sspring.mvc.annotation.RequestParam;
+import com.xxbb.sspring.mvc.annotation.ResponseBody;
 import com.xxbb.sspring.mvc.processor.RequestProcessor;
+import com.xxbb.sspring.mvc.render.ResultRender;
+import com.xxbb.sspring.mvc.render.impl.JsonResultRender;
 import com.xxbb.sspring.mvc.render.impl.ResourceNotFoundResultRender;
+import com.xxbb.sspring.mvc.render.impl.ViewResultRender;
 import com.xxbb.sspring.mvc.type.ControllerMethod;
 import com.xxbb.sspring.mvc.type.RequestPathInfo;
 import com.xxbb.sspring.util.ConverterUtil;
@@ -108,7 +112,7 @@ public class ControllerRequestProcessor implements RequestProcessor {
     }
 
     @Override
-    public boolean process(RequestProcessorChain requestProcessorChain) throws Exception {
+    public boolean process(RequestProcessorChain requestProcessorChain) {
         //1.解析HttpServletRequest的请求方法，请求路径，获取对应的ControllerMethod实例
         String method=requestProcessorChain.getRequestMethod();
         String path=requestProcessorChain.getRequestPath();
@@ -125,7 +129,25 @@ public class ControllerRequestProcessor implements RequestProcessor {
         return true;
     }
 
+    /**
+     * 根据不同情况设置不同的渲染器
+     * @param result 结果
+     * @param controllerMethod controllerMethod
+     * @param requestProcessorChain requestProcessorChain
+     */
     private void setResultRender(Object result, ControllerMethod controllerMethod, RequestProcessorChain requestProcessorChain) {
+        if(null==result){
+            log.warn("result is null");
+            return;
+        }
+        ResultRender resultRender;
+        boolean isJson=controllerMethod.getInvokeMethod().isAnnotationPresent(ResponseBody.class);
+        if(isJson){
+            resultRender=new JsonResultRender(result);
+        }else{
+            resultRender=new ViewResultRender(result);
+        }
+        requestProcessorChain.setResultRender(resultRender);
     }
 
     /**
@@ -166,7 +188,7 @@ public class ControllerRequestProcessor implements RequestProcessor {
         Object controller=beanContainer.getBean(controllerMethod.getControllerClass());
         Method invokeMethod=controllerMethod.getInvokeMethod();
         invokeMethod.setAccessible(true);
-        Object result=null;
+        Object result;
         try {
             if(methodParams.size()==0){
                 result=invokeMethod.invoke(controller);

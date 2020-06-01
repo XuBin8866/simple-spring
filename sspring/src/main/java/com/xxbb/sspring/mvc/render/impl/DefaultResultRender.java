@@ -9,7 +9,7 @@ import com.xxbb.sspring.mvc.render.ResultRender;
  */
 public class DefaultResultRender implements ResultRender {
     @Override
-    public void render(RequestProcessorChain requestProcessorChain) throws Exception {
-
+    public void render(RequestProcessorChain requestProcessorChain){
+        requestProcessorChain.getResp().setStatus(requestProcessorChain.getResponseCode());
     }
 }
