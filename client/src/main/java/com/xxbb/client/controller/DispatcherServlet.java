@@ -12,14 +12,14 @@ import java.io.IOException;
 /**
  * @author xxbb
  */
-@WebServlet("/")
+@WebServlet("/index")
 @Controller
 public class DispatcherServlet extends HttpServlet {
     public void showSomething(){
         System.out.println("this is DispatcherServlet");
     }
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) {
         System.out.println("request path is:"+req.getServletPath());
         System.out.println("request method is:"+req.getMethod());
         if("/frontend/get_main_page_info".equals(req.getServletPath())&&

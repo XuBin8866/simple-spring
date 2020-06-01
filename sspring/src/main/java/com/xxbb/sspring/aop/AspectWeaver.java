@@ -58,6 +58,7 @@ public class AspectWeaver {
         //创建目标类的动态代理对象，将切面方法进行织入
         AspectListExecutor aspectListExecutor=new AspectListExecutor(targetClass,roughMatchedAspectList);
         Object proxyBean=ProxyCreator.createProxy(targetClass,aspectListExecutor);
+        LogUtil.getLogger().debug("wrapping for class: {}, proxyBean: {}",targetClass.getSimpleName(),proxyBean.getClass().getSimpleName());
         beanContainer.addBean(targetClass,proxyBean);
     }
 
