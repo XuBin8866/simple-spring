@@ -53,10 +53,14 @@ public class DispatcherServlet extends HttpServlet {
         BeanContainer beanContainer = BeanContainer.getInstance();
         beanContainer.loadBeans(contextCofig.getProperty("scanPackage"));
         System.out.println();
+        //AOP织入
         new AspectWeaver().doAspectOrientedProgramming();
+        //依赖注入
         new DependencyInject().doDependencyInject();
-        //初始化请求处理器责任链
+        //初始化简易mybatis框架，直接调用SqlFactoryBuilder的build方法初始化单例工厂DefaultSqlSessionFactory
+        //直接引入jar包出现了在读取配置方面出了不少问题，这里暂时不进行此步操作，之后会将sspring和smybatis整合成一个框架
 
+        //初始化请求处理器责任链
         PROCESSORS.add(new PreRequestProcessor());
         PROCESSORS.add(new StaticResourceRequestProcessor(servletConfig.getServletContext()));
         PROCESSORS.add(new JspRequestProcessor(servletConfig.getServletContext()));
