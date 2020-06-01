@@ -22,8 +22,14 @@ public class AspectWeaver {
     public void doAspectOrientedProgramming(){
         //1.获取所有的切面类
         Set<Class<?>> aspectSet = beanContainer.getClassesByAnnotation(Aspect.class);
+        //没有切面类的情况
+        if(ValidationUtil.isEmpty(aspectSet)){
+            LogUtil.getLogger().warn("There is no aspect in  bean container");
+            return;
+        }
         //2.拼装AspectInfoList
         List<AspectInfo> aspectInfoList=packAspectInfoList(aspectSet);
+
         //3.遍历容器里的类
         Set<Class<?>> classSet = beanContainer.getClasses();
         for(Class<?> targetClass:classSet){

@@ -38,7 +38,7 @@ public abstract class DefaultAspect {
      * @throws Throwable 抛出异常
      */
     public void afterThrowing(Class<?> targetClass,Method method,Object[] args,Throwable throwable) throws Throwable{
-
+        throw new RuntimeException(throwable);
     }
     /**
      * 最终通知

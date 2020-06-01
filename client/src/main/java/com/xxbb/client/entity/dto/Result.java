@@ -1,11 +1,17 @@
 package com.xxbb.client.entity.dto;
 
 import com.xxbb.sspring.core.annotation.Repository;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author xxbb
  */
 @Repository
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Result<T> {
     /**
      * 状态码，200表示成功

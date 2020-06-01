@@ -7,7 +7,7 @@ import java.util.Map;
  * 存储处理完后的结果数据，以及显示该数据的视图
  * @author xxbb
  */
-public class ModeAndView {
+public class ModelAndView {
     /**
      * 页面所在的路径
      */
@@ -17,20 +17,14 @@ public class ModeAndView {
      */
     private Map<String ,Object> model=new HashMap<>();
 
-    public String getView() {
-        return view;
-    }
 
-    public Map<String, Object> getModel() {
-        return model;
-    }
 
     /**
      * 设置视图
      * @param view 视图
      * @return 当前视图
      */
-    public ModeAndView setView(String view){
+    public ModelAndView setView(String view){
         this.view=view;
         return this;
     }
@@ -42,8 +36,16 @@ public class ModeAndView {
      * @param attributeValue 键值
      * @return 当前视图
      */
-    public ModeAndView addViewData(String attributeName,Object attributeValue){
+    public ModelAndView addViewData(String attributeName, Object attributeValue){
         model.put(attributeName,attributeValue);
         return this;
+    }
+
+    public String getView() {
+        return view;
+    }
+
+    public Map<String, Object> getModel() {
+        return model;
     }
 }

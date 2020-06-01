@@ -6,7 +6,7 @@ import com.xxbb.sspring.mvc.render.ResultRender;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 内部异常渲染七
+ * 内部异常渲染渲染器
  * @author xxbb
  */
 public class InternalErrorResultRender implements ResultRender {

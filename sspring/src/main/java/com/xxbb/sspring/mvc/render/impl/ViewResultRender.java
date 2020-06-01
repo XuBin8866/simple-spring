@@ -2,7 +2,7 @@ package com.xxbb.sspring.mvc.render.impl;
 
 import com.xxbb.sspring.mvc.RequestProcessorChain;
 import com.xxbb.sspring.mvc.render.ResultRender;
-import com.xxbb.sspring.mvc.type.ModeAndView;
+import com.xxbb.sspring.mvc.type.ModelAndView;
 import com.xxbb.sspring.util.LogUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,19 +15,19 @@ import java.util.Map;
  */
 public class ViewResultRender implements ResultRender {
     public static final String VIEW_PATH = "/";
-    private ModeAndView modeAndView;
+    private ModelAndView modeAndView;
 
     /**
      * 对传入参数进行处理
      * @param object 参数
      */
     public ViewResultRender(Object object) {
-        if(object instanceof ModeAndView){
+        if(object instanceof ModelAndView){
             //1.如果入参类型是ModelAndView，则直接赋值给成员变量
-            this.modeAndView= (ModeAndView) object;
+            this.modeAndView= (ModelAndView) object;
         }else if( object instanceof String){
             //2.如果入参类型是String，则为视图，需要包装后才赋值给成员变量
-            this.modeAndView=new ModeAndView().setView((String) object);
+            this.modeAndView=new ModelAndView().setView((String) object);
         }else{
             //3.针对其他情况，则直接抛出异常
             LogUtil.getLogger().error("illegal request result type");
@@ -49,6 +49,7 @@ public class ViewResultRender implements ResultRender {
             request.setAttribute(entry.getKey(),entry.getValue());
         }
         //跳转到jsp页面
-        request.getRequestDispatcher(VIEW_PATH+path).forward(request,response);
+        String directPath=(VIEW_PATH+path).replace("//","/");
+        request.getRequestDispatcher(directPath).forward(request,response);
     }
 }

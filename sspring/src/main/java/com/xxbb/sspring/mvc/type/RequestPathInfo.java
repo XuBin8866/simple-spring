@@ -50,8 +50,12 @@ public class RequestPathInfo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         RequestPathInfo that = (RequestPathInfo) o;
         return Objects.equals(httpPath, that.httpPath) &&
                 Objects.equals(httpMethod, that.httpMethod);

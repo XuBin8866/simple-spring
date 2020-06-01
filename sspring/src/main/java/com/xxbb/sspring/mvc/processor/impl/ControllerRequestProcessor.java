@@ -39,6 +39,11 @@ public class ControllerRequestProcessor implements RequestProcessor {
      * 请求和对应Controller方法的映射集合
      */
     private Map<RequestPathInfo, ControllerMethod> requestPathInfoControllerMethodMap=new ConcurrentHashMap<>();
+
+    public Map<RequestPathInfo, ControllerMethod> getRequestPathInfoControllerMethodMap() {
+        return requestPathInfoControllerMethodMap;
+    }
+
     /**
      * 日志
      */
@@ -62,6 +67,12 @@ public class ControllerRequestProcessor implements RequestProcessor {
             if(!basePath.startsWith("/")){
                 basePath="/"+basePath;
             }
+            //当类上的requestMapping值为空时，即一级请求路径为空时
+            //以上的判断会给该路径加上一个/，导致之后的与二级路径组合会变成“//methodPath”
+            //所以这里需要进行判断，出去多余的斜杠/
+            if (basePath.length()==1){
+                basePath="";
+            }
             //2.遍历类里面所有被@RequestMapping标记的方法，获取方法上的属性值作为二级路径
             Method[] methods = requestMappingClass.getDeclaredMethods();
             if(ValidationUtil.isEmpty(methods)){
@@ -79,16 +90,22 @@ public class ControllerRequestProcessor implements RequestProcessor {
                     //3.解析方法里被@RequestParam标记的参数
                     //  获取该注解的属性值，作为参数名
                     //  获取被标记参数的数据类型，建立参数名到参数类型的映射
-                    Map<String,Class<?>> methodParamMap=new HashMap<>();
+                    Map<String,Class<?>> methodParamMap=new HashMap<>(10);
                     Parameter[] parameters=method.getParameters();
                     if(!ValidationUtil.isEmpty(parameters)){
                         for(Parameter parameter:parameters){
                             RequestParam param=parameter.getAnnotation(RequestParam.class);
-                            //参数有注解
-                            if(null!=param){
-                                methodParamMap.put(param.value(),parameter.getType());
+                            //在java8之前，编译的class文件的方法参数的并不会保存参数名，而是使用arg0，arg1...argN的形式
+                            //在java8之后允许编译的class文件带方法参数名，但这个功能是默认关闭的，需要在java文件编译时添加参数 -parameters
+                            //在IDEA和Eclipse中都可以设置
+                            //所以这里默认要求controller的方法的参数都需要有@RequestParam注解来给参数命名
+                            //即当参数未被该注解标注时需要抛出异常，避免之后发送请求而接收不到参数。
+                            if(null==param){
+                                //如果设置好了javac编译参数 -parameters后
+                                // 可以直接使用parameter.getName()作为methodParamMap的键名，去除该异常
+                                throw new RuntimeException("The parameter must has @RequestParam annotation for method:"+method);
                             }else{
-                                methodParamMap.put(parameter.getName(),parameter.getType());
+                                methodParamMap.put(param.value(),parameter.getType());
                             }
                         }
                     }
@@ -102,6 +119,7 @@ public class ControllerRequestProcessor implements RequestProcessor {
                     }
                     ControllerMethod controllerMethod=new ControllerMethod(requestMappingClass,method,methodParamMap);
                     this.requestPathInfoControllerMethodMap.put(requestPathInfo,controllerMethod);
+                    log.info("has set request mapping for: http_method: {}, url: {}, method: {}",httpMethod, url,method);
 
                 }
             }
@@ -137,7 +155,7 @@ public class ControllerRequestProcessor implements RequestProcessor {
      */
     private void setResultRender(Object result, ControllerMethod controllerMethod, RequestProcessorChain requestProcessorChain) {
         if(null==result){
-            log.warn("result is null");
+            log.warn("controller method's return result is null");
             return;
         }
         ResultRender resultRender;

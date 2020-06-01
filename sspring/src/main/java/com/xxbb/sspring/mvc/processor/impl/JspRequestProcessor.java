@@ -47,6 +47,9 @@ public class JspRequestProcessor implements RequestProcessor {
      * 是否请求的是jsp资源
      */
     private boolean isJspResource(String url) {
-        return url.startsWith(JSP_RESOURCE_PREFIX);
+        //idea的tomcat启动时自动会跳转index.jsp页面，此时请求路径为/，
+        //我们需要放行这次请求，否则会报错
+        //org.apache.jasper.JasperException: java.lang.StringIndexOutOfBoundsException: String index out of range: 0
+        return url.startsWith(JSP_RESOURCE_PREFIX)&&url.length()>1&&url.contains("."+JSP_SERVLET);
     }
 }
